@@ -55,7 +55,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"  // From node_modules
   // implementation fileTree(dir: "libs", include: ["*.aar"]) // instead we also add flatDir { dirs "$rootDir/../node_modules/react-native-deepar/android/libs" } to the main android/build.gradle
-  implementation(name: 'deepar-3.4.4', ext: 'aar')
+  implementation(name: 'deepar-5.2.0', ext: 'aar')
 
   // CameraX core library using the camera2 implementation
   def camerax_version = "1.1.0"
