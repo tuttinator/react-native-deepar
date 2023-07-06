@@ -1,5 +1,5 @@
-import React, {useRef, useState, useMemo, useEffect} from 'react';
-import {View, Text, Image, Platform, Linking, StyleSheet} from 'react-native';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
+import { View, Text, Image, Platform, Linking, StyleSheet } from 'react-native';
 import DeepARView, {
   IDeepARHandle,
   TextureSourceTypes,
@@ -10,11 +10,11 @@ import DeepARView, {
 } from 'react-native-deepar';
 import RNFetchBlob from 'rn-fetch-blob';
 
-import {Button} from '../components';
-import {Config, Images, Effects, Computed, Enums} from '../constants';
+import { Button } from '../components';
+import { Config, Images, Effects, Computed, Enums } from '../constants';
 import Utils from '../utils';
 
-const CameraScreen = ({navigation}: {navigation: any}) => {
+const CameraScreen = ({ navigation }: { navigation: any }) => {
   const deepARRef = useRef<IDeepARHandle>(null);
 
   const [permsGranted, setPermsGranted] = useState(false);
@@ -28,7 +28,7 @@ const CameraScreen = ({navigation}: {navigation: any}) => {
   const [cameraPosition, setCameraPosition] = useState(CameraPositions.FRONT);
 
   const isCurrEffectSupported = useMemo(
-    () => Effects[currEffectIndex].platforms.includes(Platform.OS),
+    () => Effects[currEffectIndex as number]?.platforms.includes(Platform.OS),
     [currEffectIndex]
   );
 
@@ -80,14 +80,14 @@ const CameraScreen = ({navigation}: {navigation: any}) => {
 
     const newEffect = Effects[newIndex];
 
-    if (newEffect.platforms.includes(Platform.OS)) {
+    if (newEffect?.platforms.includes(Platform.OS)) {
       deepARRef?.current?.switchEffect({
-        mask: newEffect.name,
+        mask: newEffect?.name as string,
         slot: 'effect',
       });
     } else {
       deepARRef?.current?.switchEffect({
-        mask: Effects[0].name,
+        mask: Effects[0]?.name as string,
         slot: 'effect',
       });
     }
@@ -145,11 +145,11 @@ const CameraScreen = ({navigation}: {navigation: any}) => {
             onPress={() => {
               setCurrEffectIndex(0);
               deepARRef?.current?.switchEffect({
-                mask: Effects[0].name,
+                mask: Effects[0]?.name as string,
                 slot: 'effect',
               });
               deepARRef?.current?.switchEffect({
-                mask: Effects[0].name,
+                mask: Effects[0]?.name as string,
                 slot: 'mask',
               });
             }}
@@ -164,7 +164,7 @@ const CameraScreen = ({navigation}: {navigation: any}) => {
           <Button
             style={styles.upLeftButton}
             disabled={
-              Effects[currEffectIndex].name !== 'background_segmentation'
+              Effects[currEffectIndex]?.name !== 'background_segmentation'
             }
             text="Random Background Image"
             onPress={() => {
@@ -183,7 +183,7 @@ const CameraScreen = ({navigation}: {navigation: any}) => {
           />
           <Button
             style={styles.upLeftButton}
-            disabled={Effects[currEffectIndex].name !== 'face_painting'}
+            disabled={Effects[currEffectIndex]?.name !== 'face_painting'}
             text={
               isFacePaintingStarted
                 ? 'Stop Face Painting'
@@ -278,12 +278,12 @@ const CameraScreen = ({navigation}: {navigation: any}) => {
     if (isCurrEffectSupported === false) {
       return (
         <Text style={[styles.title, styles.notSupportedEffectName]}>
-          {Effects[currEffectIndex].title}
+          {Effects[currEffectIndex]?.title}
         </Text>
       );
     }
 
-    return <Text style={styles.title}>{Effects[currEffectIndex].title}</Text>;
+    return <Text style={styles.title}>{Effects[currEffectIndex]?.title}</Text>;
   };
 
   const renderDeepARView = () => {
